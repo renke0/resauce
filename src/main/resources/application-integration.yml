@@ -4,3 +4,6 @@ resauce:
   integration:
     wiremock:
       port: 4242
+spring:
+  flyway:
+    enabled: false
