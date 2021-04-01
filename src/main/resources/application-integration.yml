@@ -1,0 +1,6 @@
+resauce:
+  mojang:
+    url: http://localhost:${resauce.integration.wiremock.port}
+  integration:
+    wiremock:
+      port: 4242

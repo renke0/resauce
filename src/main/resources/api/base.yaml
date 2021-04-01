@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Resauce API
+  description: Resauce API
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/api'
+paths:
+  /versions:
+    get:
+      tags: [ game-version ]
+      operationId: getVersions
+      parameters:
+        - name: types
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/VersionType"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GameVersion"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        404:
+          $ref: "#/components/responses/NotFound"
+        500:
+          $ref: "#/components/responses/InternalServerError"
+components:
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/HttpError"
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/HttpError"
+    NotFound:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/HttpError"
+  schemas:
+    GameVersion:
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/VersionType"
+        sha1:
+          type: string
+        latest:
+          type: boolean
+    HttpError:
+      description: Default type containing info about errors
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        message:
+          type: string
+        path:
+          type: string
+    VersionType:
+      enum: [ snapshot, release, old_alpha, old_beta ]

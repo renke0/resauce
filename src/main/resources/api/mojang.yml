@@ -1,0 +1,122 @@
+openapi: 3.0.3
+info:
+  title: Mojang API
+  description: Mojang API
+  version: 1.0.0
+servers:
+  - url: 'https://launchermeta.mojang.com/'
+paths:
+  /mc/game/version_manifest_v2.json:
+    get:
+      tags: [ mojang ]
+      operationId: getVersions
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VersionResponse"
+  /v1/packages/{sha1}/{id}.json:
+    get:
+      tags: [ mojang ]
+      operationId: getVersion
+      parameters:
+        - name: sha1
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VersionDownloadable"
+components:
+  schemas:
+    File:
+      properties:
+        sha1:
+          type: string
+        size:
+          type: integer
+        url:
+          type: string
+      required:
+        - sha1
+        - size
+        - url
+    GameDownloadable:
+      properties:
+        client:
+          $ref: "#/components/schemas/File"
+      required:
+        - client
+      additionalProperties: true
+    LatestVersion:
+      properties:
+        release:
+          type: string
+        snapshot:
+          type: string
+      required:
+        - release
+        - snapshot
+    Version:
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/VersionType"
+        url:
+          type: string
+        time:
+          type: string
+          format: date-time
+        releaseTime:
+          type: string
+          format: date-time
+        sha1:
+          type: string
+        complianceLevel:
+          type: integer
+      required:
+        - id
+        - type
+        - url
+        - time
+        - releaseTime
+        - sha1
+    VersionDownloadable:
+      properties:
+        id:
+          type: string
+        type:
+          $ref: "#/components/schemas/VersionType"
+        downloads:
+          $ref: "#/components/schemas/GameDownloadable"
+      required:
+        - id
+        - type
+        - downloads
+      additionalProperties: true
+    VersionResponse:
+      properties:
+        latest:
+          $ref: "#/components/schemas/LatestVersion"
+        versions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Version"
+      required:
+        - latest
+        - versions
+    VersionType:
+      enum: [ snapshot, release, old_alpha, old_beta ]
