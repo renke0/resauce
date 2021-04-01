@@ -1,0 +1,166 @@
+import groovy.io.FileType
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+  id 'org.springframework.boot' version '2.4.3'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id "org.openapi.generator" version '5.1.0'
+  id 'java'
+  id 'jacoco'
+}
+
+group = 'com.renke'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_11
+
+configurations {
+  compileOnly.extendsFrom annotationProcessor
+
+  testCompileOnly.extendsFrom annotationProcessor
+  testAnnotationProcessor.extendsFrom annotationProcessor
+
+  integrationImplementation.extendsFrom testImplementation
+  integrationRuntimeOnly.extendsFrom testRuntimeOnly
+  integrationAnnotationProcessor.extendsFrom annotationProcessor
+}
+
+sourceSets {
+  main {
+    java.srcDirs += "$buildDir/generated/sources/openapigenerator/java/main"
+    java.srcDirs += "$buildDir/generated/sources/annotationProcessors/java/main"
+  }
+  integration {
+    compileClasspath += sourceSets.test.compileClasspath
+    runtimeClasspath += sourceSets.test.runtimeClasspath
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+ext {
+  set('versions', [
+    easyRandom: '5.0.0',
+    jacksonDatabindNullable: '0.1.0',
+    jool: '0.9.14',
+    mapstruct: '1.4.2.Final',
+    mockito: '3.8.0',
+    rgxgen: '1.3',
+    springCloud: '2020.0.1',
+    springfoxBootStarter: '3.0.0',
+    wiremock: '2.27.2'
+  ])
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.flywaydb:flyway-core'
+  implementation 'io.github.openfeign:feign-okhttp'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+  implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+  implementation "org.openapitools:jackson-databind-nullable:${versions.jacksonDatabindNullable}"
+  implementation "io.springfox:springfox-boot-starter:${versions.springfoxBootStarter}"
+  implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+  implementation "org.jooq:jool:${versions.jool}"
+
+  compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+  runtimeOnly 'com.h2database:h2'
+
+  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+  annotationProcessor 'org.projectlombok:lombok'
+  annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation "org.jeasy:easy-random-core:${versions.easyRandom}"
+  testImplementation "org.mockito:mockito-inline:${versions.mockito}"
+
+  integrationImplementation('io.rest-assured:rest-assured') {
+    exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+  }
+  integrationImplementation "com.github.tomakehurst:wiremock:${versions.wiremock}"
+  integrationImplementation "com.github.curious-odd-man:rgxgen:${versions.rgxgen}"
+}
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloud}"
+  }
+}
+
+jacoco {
+  toolVersion '0.8.6'
+}
+
+jacocoTestReport {
+  afterEvaluate {
+    classDirectories.from = files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: ["com/renke/resauce/mapper/generated/**"])
+    })
+  }
+}
+
+// unit
+test {
+  useJUnitPlatform()
+  finalizedBy jacocoTestReport
+}
+
+// integration
+task integration(type: Test) {
+  description = "Run integration tests"
+  group = "verification"
+
+  testClassesDirs = sourceSets.integration.output.classesDirs
+  classpath = sourceSets.integration.runtimeClasspath
+  shouldRunAfter test
+}
+
+integration {
+  useJUnitPlatform()
+}
+
+check.dependsOn integration
+
+// OpenApi
+tasks.openApiGenerate.configure {
+  onlyIf { false }
+}
+
+tasks.compileJava.dependsOn tasks.openApiGenerate
+
+def dir = new File("$rootDir/src/main/resources/api/".toString())
+dir.eachFileRecurse(FileType.FILES) { File file ->
+  if (file.name.endsWithAny(".yaml", ".yml")) {
+    def apiName = file.name.substring(0, file.name.lastIndexOf('.'))
+    def taskName = 'openApiGenerate' + apiName.capitalize()
+    def subPackage = apiName == rootProject.name ? "" : ".$apiName"
+    tasks.openApiGenerate.dependsOn tasks.register(taskName, GenerateTask) {
+      generatorName = "spring"
+      inputSpec = "$rootDir/src/main/resources/api/$file.name"
+      outputDir = "$buildDir/generated/sources/openapigenerator"
+      modelNameSuffix = "Model"
+      templateDir = "$rootDir/src/main/resources/templates"
+      configOptions = [
+        debugSupportingFiles: "true",
+        sourceFolder: "/java/main",
+        apiPackage: "com.renke.resauce.api$subPackage",
+        modelPackage: "com.renke.resauce.model$subPackage",
+        additionalModelTypeAnnotations: "@lombok.Generated",
+        additionalEnumTypeAnnotations: "@lombok.Generated",
+        dateLibrary: "java8",
+        interfaceOnly: "true",
+        skipDefaultInterface: "true",
+        performBeanValidation: "true",
+        useTags: "true",
+        useOptional: "true"
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "resauce.mojang.url",
+      "type": "java.lang.String",
+      "description": "Description for resauce.mojang.url."
+    },
+    {
+      "name": "resauce.integration.wiremock.port",
+      "type": "java.lang.Integer",
+      "description": "Description for resauce.integration.wiremock.port."
+    }
+  ]
+}
