@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -20,4 +20,10 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
       - run: gradle test
       - run: gradle integration
+      - run: gradle sonarqube
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
 

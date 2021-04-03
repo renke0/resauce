@@ -5,6 +5,7 @@ plugins {
   id 'org.springframework.boot' version '2.4.3'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id "org.openapi.generator" version '5.1.0'
+  id 'org.sonarqube' version '3.1.1'
   id 'java'
   id 'jacoco'
 }
@@ -103,6 +104,14 @@ jacocoTestReport {
     classDirectories.from = files(classDirectories.files.collect {
       fileTree(dir: it, exclude: ["com/renke/resauce/mapper/generated/**"])
     })
+  }
+}
+
+sonarqube {
+  properties {
+    property "sonar.projectKey", "renke0_resauce"
+    property "sonar.organization", "renke0-github"
+    property "sonar.host.url", "https://sonarcloud.io"
   }
 }
 
