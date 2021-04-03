@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
 jobs:
   build:
     docker:
@@ -21,6 +23,8 @@ jobs:
       - run: gradle test
       - run: gradle integration
       - run: gradle sonarqube
+      - codecov/upload:
+          file: build/reports/jacoco/test/jacocoTestReport.xml
 workflows:
   main:
     jobs:

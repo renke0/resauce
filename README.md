@@ -1,0 +1,6 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=renke0_resauce&metric=alert_status)](https://sonarcloud.io/dashboard?id=renke0_resauce)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=renke0_resauce&metric=code_smells)](https://sonarcloud.io/dashboard?id=renke0_resauce)
+[![codecov](https://codecov.io/gh/renke0/resauce/branch/master/graph/badge.svg?token=2VqEBK9PGI)](https://codecov.io/gh/renke0/resauce)
+[![circleci](https://circleci.com/gh/renke0/resauce.svg?style=shield)](https://app.circleci.com/pipelines/github/renke0/resauce)
+[![CodeFactor](https://www.codefactor.io/repository/github/renke0/resauce/badge)](https://www.codefactor.io/repository/github/renke0/resauce)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/99bd861607e3426aa47cf45dea224914)](https://www.codacy.com/gh/renke0/resauce/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=renke0/resauce&amp;utm_campaign=Badge_Grade)

@@ -100,6 +100,11 @@ jacoco {
 }
 
 jacocoTestReport {
+  reports {
+    xml.enabled true
+    html.enabled true
+    csv.enabled false
+  }
   afterEvaluate {
     classDirectories.from = files(classDirectories.files.collect {
       fileTree(dir: it, exclude: ["com/renke/resauce/mapper/generated/**"])
@@ -109,9 +114,10 @@ jacocoTestReport {
 
 sonarqube {
   properties {
-    property "sonar.projectKey", "renke0_resauce"
-    property "sonar.organization", "renke0-github"
-    property "sonar.host.url", "https://sonarcloud.io"
+    property 'sonar.projectKey', 'renke0_resauce'
+    property 'sonar.organization', 'renke0-github'
+    property 'sonar.host.url', 'https://sonarcloud.io'
+    property 'sonar.coverage.jacoco.xmlReportPaths', "$buildDir/reports/jacoco/jacocoTestReport.xml"
   }
 }
 
