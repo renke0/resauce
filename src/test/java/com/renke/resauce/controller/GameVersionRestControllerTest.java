@@ -47,7 +47,7 @@ class GameVersionRestControllerTest {
     @DisplayName("should list versions with the given types")
     void testWithTypes() {
       controller.getVersions(Optional.of(List.of(RELEASE, SNAPSHOT)));
-      verify(gameVersionService).listGameVersions(eq(List.of(RELEASE, SNAPSHOT)));
+      verify(gameVersionService).listGameVersions(List.of(RELEASE, SNAPSHOT));
     }
   }
 }
