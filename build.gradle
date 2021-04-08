@@ -6,7 +6,9 @@ plugins {
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id "org.openapi.generator" version '5.1.0'
   id 'org.sonarqube' version '3.1.1'
+  id 'org.barfuin.gradle.taskinfo' version '1.0.5'
   id 'java'
+  id 'groovy'
   id 'jacoco'
 }
 
@@ -23,6 +25,8 @@ configurations {
   integrationImplementation.extendsFrom testImplementation
   integrationRuntimeOnly.extendsFrom testRuntimeOnly
   integrationAnnotationProcessor.extendsFrom annotationProcessor
+
+  scriptImplementation.extendsFrom implementation
 }
 
 sourceSets {
@@ -34,6 +38,10 @@ sourceSets {
     compileClasspath += sourceSets.test.compileClasspath
     runtimeClasspath += sourceSets.test.runtimeClasspath
   }
+  script {
+    compileClasspath += sourceSets.main.compileClasspath
+    runtimeClasspath += sourceSets.main.runtimeClasspath
+  }
 }
 
 repositories {
@@ -43,7 +51,9 @@ repositories {
 ext {
   set('versions', [
     easyRandom: '5.0.0',
+    groovyAll: '2.5.14',
     jacksonDatabindNullable: '0.1.0',
+    jsoup: '1.13.1',
     jool: '0.9.14',
     mapstruct: '1.4.2.Final',
     mockito: '3.8.0',
@@ -85,8 +95,12 @@ dependencies {
   integrationImplementation('io.rest-assured:rest-assured') {
     exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
   }
+  integrationImplementation "org.codehaus.groovy:groovy-all:${versions.groovyAll}"
   integrationImplementation "com.github.tomakehurst:wiremock:${versions.wiremock}"
   integrationImplementation "com.github.curious-odd-man:rgxgen:${versions.rgxgen}"
+
+  scriptImplementation "org.codehaus.groovy:groovy-all:${versions.groovyAll}"
+  scriptImplementation "org.jsoup:jsoup:${versions.jsoup}"
 }
 
 dependencyManagement {
@@ -179,3 +193,19 @@ dir.eachFileRecurse(FileType.FILES) { File file ->
     }
   }
 }
+
+// scrappers
+task updateItemList(type: JavaExec) {
+  main = 'com.renke.resauce.scripts.ItemScrapper'
+  classpath = sourceSets.script.runtimeClasspath
+  args sourceSets.main.output.resourcesDir
+}
+
+task updateClientInfo(type: JavaExec) {
+  main = 'com.renke.resauce.scripts.ClientScrapper'
+  classpath = sourceSets.script.runtimeClasspath
+  args sourceSets.main.output.resourcesDir
+}
+
+tasks.assemble.finalizedBy updateItemList
+tasks.assemble.finalizedBy updateClientInfo
