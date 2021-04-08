@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public abstract class IntegrationTest {
-  public final static String EXCLUSION_IDS = "exclusion-ids";
+  public static final String EXCLUSION_IDS = "exclusion-ids";
 
   @Autowired
   @Delegate

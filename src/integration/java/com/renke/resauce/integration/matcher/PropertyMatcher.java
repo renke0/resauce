@@ -18,6 +18,7 @@ public class PropertyMatcher extends ObjectMatcher {
 
   @Override
   public void describeTo(Description description) {
+    description.appendText("properties don't match");
   }
 
   @Override

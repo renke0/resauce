@@ -5,10 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ValueCaptor {
 
   private static final Map<String, List<Object>> captures = new HashMap<>();
@@ -23,6 +26,7 @@ public class ValueCaptor {
 
       @Override
       public void describeTo(Description description) {
+        throw new UnsupportedOperationException();
       }
     };
   }

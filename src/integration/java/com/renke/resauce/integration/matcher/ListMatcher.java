@@ -23,7 +23,7 @@ public abstract class ListMatcher extends BaseMatcher<List<DynamicObject>> {
 
   public abstract boolean listMatches(List<DynamicObject> actual);
 
-  public static Matcher<?> allMatch(Predicate<DynamicObject> latestPredicate) {
+  public static Matcher<List<DynamicObject>> allMatch(Predicate<DynamicObject> latestPredicate) {
     return new ListMatcher() {
       @Override
       public boolean listMatches(List<DynamicObject> actual) {
@@ -32,7 +32,7 @@ public abstract class ListMatcher extends BaseMatcher<List<DynamicObject>> {
 
       @Override
       public void describeTo(Description description) {
-
+        description.appendText("items don't match");
       }
     };
   }

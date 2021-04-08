@@ -4,7 +4,7 @@ import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 plugins {
   id 'org.springframework.boot' version '2.4.4'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id "org.openapi.generator" version '5.1.0'
+  id 'org.openapi.generator' version '5.1.0'
   id 'org.sonarqube' version '3.1.1'
   id 'org.barfuin.gradle.taskinfo' version '1.0.5'
   id 'java'
@@ -121,7 +121,7 @@ jacocoTestReport {
   }
   afterEvaluate {
     classDirectories.from = files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: ["com/renke/resauce/mapper/generated/**"])
+      fileTree(dir: it, exclude: ['com/renke/resauce/mapper/generated/**'])
     })
   }
 }
@@ -132,6 +132,7 @@ sonarqube {
     property 'sonar.organization', 'renke0-github'
     property 'sonar.host.url', 'https://sonarcloud.io'
     property 'sonar.coverage.jacoco.xmlReportPaths', "$buildDir/reports/jacoco/jacocoTestReport.xml"
+    properties['sonar.tests'] += sourceSets.integration.java.srcDirs
   }
 }
 
@@ -143,8 +144,8 @@ test {
 
 // integration
 task integration(type: Test) {
-  description = "Run integration tests"
-  group = "verification"
+  description = 'Run integration tests'
+  group = 'verification'
 
   testClassesDirs = sourceSets.integration.output.classesDirs
   classpath = sourceSets.integration.runtimeClasspath
@@ -166,29 +167,29 @@ tasks.compileJava.dependsOn tasks.openApiGenerate
 
 def dir = new File("$rootDir/src/main/resources/api/".toString())
 dir.eachFileRecurse(FileType.FILES) { File file ->
-  if (file.name.endsWithAny(".yaml", ".yml")) {
+  if (file.name.endsWithAny('.yaml', '.yml')) {
     def apiName = file.name.substring(0, file.name.lastIndexOf('.'))
     def taskName = 'openApiGenerate' + apiName.capitalize()
-    def subPackage = apiName == rootProject.name ? "" : ".$apiName"
+    def subPackage = apiName == rootProject.name ? '' : ".$apiName"
     tasks.openApiGenerate.dependsOn tasks.register(taskName, GenerateTask) {
-      generatorName = "spring"
+      generatorName = 'spring'
       inputSpec = "$rootDir/src/main/resources/api/$file.name"
       outputDir = "$buildDir/generated/sources/openapigenerator"
-      modelNameSuffix = "Model"
+      modelNameSuffix = 'Model'
       templateDir = "$rootDir/src/main/resources/templates"
       configOptions = [
-        debugSupportingFiles: "true",
-        sourceFolder: "/java/main",
+        debugSupportingFiles: 'true',
+        sourceFolder: '/java/main',
         apiPackage: "com.renke.resauce.api$subPackage",
         modelPackage: "com.renke.resauce.model$subPackage",
-        additionalModelTypeAnnotations: "@lombok.Generated",
-        additionalEnumTypeAnnotations: "@lombok.Generated",
-        dateLibrary: "java8",
-        interfaceOnly: "true",
-        skipDefaultInterface: "true",
-        performBeanValidation: "true",
-        useTags: "true",
-        useOptional: "true"
+        additionalModelTypeAnnotations: '@lombok.Generated',
+        additionalEnumTypeAnnotations: '@lombok.Generated',
+        dateLibrary: 'java8',
+        interfaceOnly: 'true',
+        skipDefaultInterface: 'true',
+        performBeanValidation: 'true',
+        useTags: 'true',
+        useOptional: 'true'
       ]
     }
   }

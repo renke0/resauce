@@ -11,7 +11,7 @@ public class RegexGenerator implements Randomizer<String> {
   public static final String URL_REGEX = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)";
   public static final String HEXA_REGEX = "[A-F0-9]*";
 
-  private final static int MAXIMUM_PATTERN_REPETITION = 30;
+  private static final int MAXIMUM_PATTERN_REPETITION = 30;
   private final RgxGenProperties properties;
   private final String regex;
 
