@@ -11,7 +11,7 @@ import static org.mockito.Mockito.mockStatic;
 
 class ResauceApplicationTest extends ResauceTest {
   @Nested
-  @DisplayName("void main(String[])")
+  @DisplayName("main")
   class MainTest {
 
     @Test

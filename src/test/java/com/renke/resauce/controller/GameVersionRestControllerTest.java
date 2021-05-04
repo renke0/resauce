@@ -1,5 +1,6 @@
 package com.renke.resauce.controller;
 
+import com.renke.resauce.ResauceTest;
 import com.renke.resauce.service.GameVersionService;
 import java.util.Collections;
 import java.util.List;
@@ -7,26 +8,22 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.renke.resauce.model.base.VersionTypeModel.RELEASE;
 import static com.renke.resauce.model.base.VersionTypeModel.SNAPSHOT;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-class GameVersionRestControllerTest {
+class GameVersionRestControllerTest extends ResauceTest {
   @Mock
   GameVersionService gameVersionService;
   @InjectMocks
   GameVersionRestController controller;
 
   @Nested
-  @DisplayName("ResponseEntity<List<GameVersionModel>> getVersions(Optional<List<VersionTypeModel>>)")
+  @DisplayName("getVersions")
   class GetVersionsTest {
 
     @Test

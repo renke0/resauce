@@ -8,11 +8,3 @@ versions:
   - id: 1.14
     items-url: https://www.digminecraft.com/lists/item_id_list_pc_1_14.php
     metadata-url: https://launchermeta.mojang.com/v1/packages/361b6f18d422c3cd7323c268201f5404b06194e4/1.14.4.json
-  - id: 1.13
-    items-url: https://www.digminecraft.com/lists/item_id_list_pc_1_13.php
-    metadata-url: https://launchermeta.mojang.com/v1/packages/26ec75fc9a8b990fa976100a211475d18bd97de0/1.13.2.json
-  - id: 1.12
-    items-url: https://www.digminecraft.com/lists/item_id_list_pc_1_12.php
-    metadata-url: https://launchermeta.mojang.com/v1/packages/6e69e85d0f85f4f4b9e12dd99d102092a6e15918/1.12.2.json
-
-

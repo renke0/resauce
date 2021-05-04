@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
 class FunctionsTest extends ResauceTest {
 
   @Nested
-  @DisplayName("Function<T> consuming(Consumer<T>)")
+  @DisplayName("consuming")
   class ConsumingTest {
 
     @Test

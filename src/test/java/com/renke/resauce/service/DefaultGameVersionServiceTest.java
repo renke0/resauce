@@ -37,12 +37,12 @@ class DefaultGameVersionServiceTest extends ResauceTest {
   DefaultGameVersionService service;
 
   @Nested
-  @DisplayName("List<GameVersionModel> listGameVersions(List<VersionTypeModel>)")
+  @DisplayName("listGameVersions")
   class ListGameVersionsTest {
 
     @Test
     @DisplayName("Should list all the game versions when no types are specified")
-    void testListGameVersions_noFilter() {
+    void testListGameVersionsNoFilter() {
       when(mojangClient.getVersions())
           .thenReturn(ok(nextObject(VersionResponseModel.class)));
       when(versionMapper.toGameVersion(any()))
@@ -56,7 +56,7 @@ class DefaultGameVersionServiceTest extends ResauceTest {
 
     @Test
     @DisplayName("Should filter the game versions when types are specified")
-    void testListGameVersions_filtering() {
+    void testListGameVersionsFiltering() {
       var filterVersions = List.of(SNAPSHOT, RELEASE);
       var gameVersions = Stream.of(SNAPSHOT, RELEASE, OLD_ALPHA, SNAPSHOT, OLD_BETA)
           .map(t -> nextObject(GameVersionModel.class).type(t))
@@ -76,7 +76,7 @@ class DefaultGameVersionServiceTest extends ResauceTest {
 
     @Test
     @DisplayName("Should assign the correct 'latest' flag")
-    void testListGameVersions_latest() {
+    void testListGameVersionsLatest() {
       var gameVersions = Stream.of("snapshot-id", "release-id", "other-id")
           .map(id -> nextObject(GameVersionModel.class).id(id))
           .toArray(GameVersionModel[]::new);

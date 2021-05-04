@@ -24,7 +24,7 @@ class OpenFeignConfigurationTest extends ResauceTest {
   OpenFeignConfiguration configuration;
 
   @Nested
-  @DisplayName("Client client()")
+  @DisplayName("client")
   class ClientTest {
     @Test
     @DisplayName("Should provide an OkHttpClient")
@@ -35,7 +35,7 @@ class OpenFeignConfigurationTest extends ResauceTest {
   }
 
   @Nested
-  @DisplayName("Decoder decoder(ObjectMapper)")
+  @DisplayName("decoder")
   class DecoderTest {
     @Test
     @DisplayName("Should provide a ResponseEntityDecoder")

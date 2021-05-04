@@ -15,7 +15,7 @@ class SerializationConfigurationTest extends ResauceTest {
   SerializationConfiguration configuration;
 
   @Nested
-  @DisplayName("ObjectMapper objectMapper()")
+  @DisplayName("objectMapper")
   class ObjectMapperTest {
     @Test
     @DisplayName("Should scan the classpath and register Jackson Modules")

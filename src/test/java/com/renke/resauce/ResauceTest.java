@@ -1,6 +1,12 @@
 package com.renke.resauce;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import lombok.SneakyThrows;
 import lombok.experimental.Delegate;
 import org.jeasy.random.EasyRandom;
 import org.jeasy.random.EasyRandomParameters;
@@ -17,10 +23,30 @@ public abstract class ResauceTest {
 
   @Delegate
   protected final EasyRandom easyRandom = new EasyRandom(
-      new EasyRandomParameters()
-          .stringLengthRange(MIN_STRING_LENGTH, MAX_STRING_LENGTH)
-          .collectionSizeRange(DEFAULT_COLLECTION_SIZE, DEFAULT_COLLECTION_SIZE)
-          .overrideDefaultInitialization(true));
+      buildParameters());
+
+  private EasyRandomParameters buildParameters() {
+    var parameters = new EasyRandomParameters()
+        .stringLengthRange(MIN_STRING_LENGTH, MAX_STRING_LENGTH)
+        .collectionSizeRange(DEFAULT_COLLECTION_SIZE, DEFAULT_COLLECTION_SIZE)
+        .overrideDefaultInitialization(true)
+        .randomizationDepth(5);
+    extraEasyRandomConfiguration(parameters);
+    return parameters;
+  }
+
+  protected void extraEasyRandomConfiguration(EasyRandomParameters parameters) {
+  }
+
+  protected final <T> Set<T> nextSet(Class<T> type) {
+    return nextSet(type, DEFAULT_COLLECTION_SIZE);
+  }
+
+  protected <T> Set<T> nextSet(Class<T> type, int count) {
+    return IntStream.range(0, count)
+        .mapToObj(i -> nextObject(type))
+        .collect(Collectors.toSet());
+  }
 
   protected final <T> T first(T[] array) {
     assertTrue(array.length > 0);
@@ -30,5 +56,14 @@ public abstract class ResauceTest {
   protected final <T> T[] remaining(T[] array) {
     assertTrue(array.length > 0);
     return Arrays.copyOfRange(array, 1, array.length);
+  }
+
+  protected  <T, R> Set<R> map(Set<T> input, Function<T, R> function) {
+    return input.stream().map(function).collect(Collectors.toSet());
+  }
+
+  @SneakyThrows
+  protected final String json(Object object) {
+    return new ObjectMapper().writeValueAsString(object);
   }
 }

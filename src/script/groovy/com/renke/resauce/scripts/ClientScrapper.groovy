@@ -27,7 +27,7 @@ println "Game resources imported successfully"
 
 static save(String resourcePath, String path, ZipFile zip, ZipEntry entry) {
   def fileName = entry.name.substring(entry.name.lastIndexOf('/'))
-  def location = new File("$resourcePath/game-assets/$path/")
+  def location = new File("$resourcePath/game-data/$path/")
   if (!location.exists()) {
     location.mkdirs()
   }

@@ -42,7 +42,7 @@ class WebMvcConfigurationTest extends ResauceTest {
   }
 
   @Nested
-  @DisplayName("void addFormatters(FormatterRegistry")
+  @DisplayName("addFormatters")
   class AddFormattersTest {
     @Test
     @DisplayName("Should add all the given converters")
