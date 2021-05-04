@@ -48,22 +48,6 @@ repositories {
   mavenCentral()
 }
 
-ext {
-  set('versions', [
-    easyRandom: '5.0.0',
-    groovyAll: '2.5.14',
-    jacksonDatabindNullable: '0.1.0',
-    jsoup: '1.13.1',
-    jool: '0.9.14',
-    mapstruct: '1.4.2.Final',
-    mockito: '3.8.0',
-    rgxgen: '1.3',
-    springCloud: '2020.0.1',
-    springfoxBootStarter: '3.0.0',
-    wiremock: '2.27.2'
-  ])
-}
-
 dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -73,10 +57,10 @@ dependencies {
   implementation 'io.github.openfeign:feign-okhttp'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-  implementation "org.openapitools:jackson-databind-nullable:${versions.jacksonDatabindNullable}"
-  implementation "io.springfox:springfox-boot-starter:${versions.springfoxBootStarter}"
-  implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
-  implementation "org.jooq:jool:${versions.jool}"
+  implementation 'org.openapitools:jackson-databind-nullable:0.1.0'
+  implementation 'io.springfox:springfox-boot-starter:3.0.0'
+  implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+  implementation 'org.jooq:jool:0.9.14'
 
   compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
 
@@ -86,26 +70,26 @@ dependencies {
 
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
   annotationProcessor 'org.projectlombok:lombok'
-  annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation "org.jeasy:easy-random-core:${versions.easyRandom}"
-  testImplementation "org.mockito:mockito-inline:${versions.mockito}"
+  testImplementation 'org.jeasy:easy-random-core:5.0.0'
+  testImplementation 'org.mockito:mockito-inline:3.8.0'
 
   integrationImplementation('io.rest-assured:rest-assured') {
     exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
   }
-  integrationImplementation "org.codehaus.groovy:groovy-all:${versions.groovyAll}"
-  integrationImplementation "com.github.tomakehurst:wiremock:${versions.wiremock}"
-  integrationImplementation "com.github.curious-odd-man:rgxgen:${versions.rgxgen}"
+  integrationImplementation 'org.codehaus.groovy:groovy-all:2.5.14'
+  integrationImplementation 'com.github.tomakehurst:wiremock:2.27.2'
+  integrationImplementation 'com.github.curious-odd-man:rgxgen:1.3'
 
-  scriptImplementation "org.codehaus.groovy:groovy-all:${versions.groovyAll}"
-  scriptImplementation "org.jsoup:jsoup:${versions.jsoup}"
+  scriptImplementation 'org.codehaus.groovy:groovy-all:2.5.14'
+  scriptImplementation 'org.jsoup:jsoup:1.13.1'
 }
 
 dependencyManagement {
   imports {
-    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.springCloud}"
+    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2020.0.1'
   }
 }
 
