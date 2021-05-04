@@ -79,7 +79,7 @@ dependencies {
   integrationImplementation('io.rest-assured:rest-assured') {
     exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
   }
-  integrationImplementation 'org.codehaus.groovy:groovy-all:2.5.14'
+  integrationImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
   integrationImplementation 'com.github.tomakehurst:wiremock:2.27.2'
   integrationImplementation 'com.github.curious-odd-man:rgxgen:1.3'
 
