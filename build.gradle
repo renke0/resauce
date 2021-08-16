@@ -85,7 +85,7 @@ dependencies {
   integrationImplementation 'com.github.curious-odd-man:rgxgen:1.3'
 
   scriptImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
-  scriptImplementation 'org.jsoup:jsoup:1.13.1'
+  scriptImplementation 'org.jsoup:jsoup:1.14.2'
 }
 
 dependencyManagement {
