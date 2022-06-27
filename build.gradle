@@ -57,7 +57,7 @@ dependencies {
   implementation 'io.github.openfeign:feign-okhttp'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
   implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-  implementation 'org.openapitools:jackson-databind-nullable:0.2.1'
+  implementation 'org.openapitools:jackson-databind-nullable:0.2.3'
   implementation 'io.springfox:springfox-boot-starter:3.0.0'
   implementation 'org.mapstruct:mapstruct:1.4.2.Final'
   implementation 'org.jooq:jool:0.9.14'
