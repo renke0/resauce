@@ -80,7 +80,7 @@ dependencies {
     exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     exclude group: 'org.codehaus.groovy'
   }
-  integrationImplementation 'org.codehaus.groovy:groovy-all:3.0.8'
+  integrationImplementation 'org.codehaus.groovy:groovy-all:3.0.13'
   integrationImplementation 'com.github.tomakehurst:wiremock:2.27.2'
   integrationImplementation 'com.github.curious-odd-man:rgxgen:1.3'
 
